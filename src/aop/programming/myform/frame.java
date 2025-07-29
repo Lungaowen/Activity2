@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -92,14 +93,48 @@ public class frame extends JFrame implements ActionListener{
         IdNumTextField.setColumns(12);
         IdNumPanel.add(IdNumTextField);
         
+        //age number panel
+        agePanel.setBackground(Color.MAGENTA);
+        agePanel.setBounds(0, 0, 300, 30);
+        agePanel.setSize(300, 30);
+        agePanel.setLayout(new FlowLayout());
+        // AGE Label
+        ageLabel.setText("Age: ");
+        agePanel.add(ageLabel);
+        //AGE text area
+        ageTextField.setColumns(5);
+        agePanel.add(ageTextField);
+        
+        
         registerPanel.add(namePanel);
         registerPanel.add(surnamePanel);
         registerPanel.add(IdNumPanel);
+        registerPanel.add(agePanel);
         registerPanel.setBackground(Color.gray);
         registerPanel.setBounds(100, 15, 300, 300);
         
         add(registerPanel);
         
+        //Button panel
+        buttonPanel.setBackground(Color.cyan);
+        buttonPanel.setBounds(100, 315, 300, 50);
+        buttonPanel.setLayout(new FlowLayout());
+        //Clear button
+        clearButton.setText("Clear");
+        clearButton.addActionListener(this);
+        buttonPanel.add(clearButton);
+        
+        //Submit button
+        submitButton.setText("Submit");
+        submitButton.addActionListener(this);
+        buttonPanel.add(submitButton);
+        
+        //Exit Button
+        exitButton.setText("Exit");
+        exitButton.addActionListener(this);
+        buttonPanel.add(exitButton);
+        
+        add(buttonPanel);
     }
     
     
@@ -107,7 +142,10 @@ public class frame extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(e.getSource() == clearButton){
+            JOptionPane.showMessageDialog(this, clearButton);
+        }else if(e.getSource() == submitButton){
+        }
     }
     public static void main(String[] args) {
         frame f = new frame();
