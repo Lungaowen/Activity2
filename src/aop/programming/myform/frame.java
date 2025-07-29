@@ -8,15 +8,24 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 /**
  *
@@ -31,94 +40,84 @@ public class frame extends JFrame implements ActionListener{
     private JLabel ageLabel = new JLabel();
     
     //Text field
-    private JTextField nameTextField = new JTextField();
-    private JTextField surnameTextField = new JTextField();
-    private JTextField IdNumTextField = new JTextField();
-    private JTextField ageTextField = new JTextField();
+    private JTextField nameTextField = new JTextField(10);
+    private JTextField surnameTextField = new JTextField(10);
+    private JTextField IdNumTextField = new JTextField(10);
+    private JTextField ageTextField = new JTextField(10);
     
     //panels
+    private JPanel mainPanel = new JPanel();
     private JPanel namePanel = new JPanel();
     private JPanel surnamePanel = new JPanel();
-    private JPanel IdNumPanel = new JPanel();
     private JPanel agePanel = new JPanel();
+    private JPanel IdNumPanel = new JPanel();
     private JPanel registerPanel = new JPanel();
     private JPanel buttonPanel = new JPanel();
+    private JPanel textPanel = new JPanel();
     
     //My Buttons
     private JButton clearButton = new JButton();
     private JButton submitButton = new JButton();
     private JButton exitButton = new JButton();
+    
+    //My CheckBox
+    private JCheckBox maleCheckBox = new JCheckBox();
+    private JCheckBox femaleCheckBox = new JCheckBox();
+    
+    //Text Area
+    private JTextArea textArea;
 
     public frame() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(500, 500);
-        setResizable(false);
-        setVisible(true);
+        
         setTitle("REGISTRATION FORM");
-        setLayout(null);
+        setLayout(new BorderLayout());
+        
         
         //User name panel 
-        namePanel.setBackground(Color.red);
-        namePanel.setBounds(0, 0, 300, 30);
-        namePanel.setLayout(new FlowLayout());
         //Name Label
-        nameLabel.setText("Name: ");
+        JLabel jl = new JLabel("                 REGISTRATION FORM");
+        jl.setFont(new Font("fOMN", Font.BOLD, 20));
+        
+        
+        nameLabel.setText("Name : ");
+        namePanel.setLayout(new GridLayout(1,2,10,10));
         namePanel.add(nameLabel);
-        //Text field
-        nameTextField.setColumns(12);
         namePanel.add(nameTextField);
         
-        
-        //Surname PaNEL
-        surnamePanel.setBackground(Color.green);
-        surnamePanel.setBounds(0, 0, 300, 30);
-        //surnamePanel.setLayout(new FlowLayout());
-        //Surname Label
-        surnameLabel.setText("Surname: ");
+        surnameLabel.setText("Surname : ");
+        surnamePanel.setLayout(new GridLayout(1,2,10,10));
         surnamePanel.add(surnameLabel);
-        //surname Text field
-        surnameTextField.setColumns(12);
         surnamePanel.add(surnameTextField);
         
-        
-        //ID number  panel
-        IdNumPanel.setBackground(Color.black);
-        IdNumPanel.setBounds(0, 0, 300, 30);
-        IdNumPanel.setSize(300, 30);
-        IdNumPanel.setLayout(new FlowLayout());
-        //ID Number Label
-        IdNumLabel.setText("ID NUMBER : ");
-        IdNumPanel.add(IdNumLabel);
-        //Text field
-        IdNumTextField.setColumns(12);
-        IdNumPanel.add(IdNumTextField);
-        
-        //age number panel
-        agePanel.setBackground(Color.MAGENTA);
-        agePanel.setBounds(0, 0, 300, 30);
-        agePanel.setSize(300, 30);
-        agePanel.setLayout(new FlowLayout());
-        // AGE Label
-        ageLabel.setText("Age: ");
+        ageLabel.setText("Age : ");
+        agePanel.setLayout(new GridLayout(1,2,10,10));
         agePanel.add(ageLabel);
-        //AGE text area
-        ageTextField.setColumns(5);
         agePanel.add(ageTextField);
         
+        IdNumLabel.setText("ID number : ");
+        IdNumPanel.setLayout(new GridLayout(1,2,10,10));
+        IdNumPanel.add(IdNumLabel);
+        IdNumPanel.add(IdNumTextField);
         
+        registerPanel.setLayout(new GridLayout(4,2,10,10));
+        registerPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.red), "Registration Form"));
         registerPanel.add(namePanel);
         registerPanel.add(surnamePanel);
-        registerPanel.add(IdNumPanel);
         registerPanel.add(agePanel);
-        registerPanel.setBackground(Color.gray);
-        registerPanel.setBounds(100, 15, 300, 300);
+        registerPanel.add(IdNumPanel);
         
-        add(registerPanel);
+        textPanel.setLayout(new FlowLayout());
+        textArea = new JTextArea(10, 40);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        textPanel.add(scrollPane);
         
-        //Button panel
-        buttonPanel.setBackground(Color.cyan);
-        buttonPanel.setBounds(100, 315, 300, 50);
-        buttonPanel.setLayout(new FlowLayout());
+        mainPanel.setLayout(new GridLayout(2,1));
+        mainPanel.add(registerPanel);
+        mainPanel.add(textPanel);
+        
+        buttonPanel.setLayout(new GridLayout(1, 3));
         //Clear button
         clearButton.setText("Clear");
         clearButton.addActionListener(this);
@@ -134,17 +133,22 @@ public class frame extends JFrame implements ActionListener{
         exitButton.addActionListener(this);
         buttonPanel.add(exitButton);
         
-        add(buttonPanel);
+        add(jl,BorderLayout.NORTH);
+        add(mainPanel,BorderLayout.CENTER);
+        add(buttonPanel,BorderLayout.SOUTH);
+        pack();
+       
+        setVisible(true);
     }
-    
-    
-    
-
+  
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == clearButton){
-            JOptionPane.showMessageDialog(this, clearButton);
+            
         }else if(e.getSource() == submitButton){
+            
+        }else if(e.getSource() == exitButton){
+            System.exit(0);
         }
     }
     public static void main(String[] args) {
