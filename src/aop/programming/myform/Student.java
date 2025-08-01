@@ -13,6 +13,7 @@ public class Student {
     private int age;
     private String idNumber;
     private String surname;
+    private String gender;
     
     public Student() {
         
@@ -50,10 +51,29 @@ public class Student {
         this.surname = surname;
     }
 
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
     @Override
     public String toString() {
-        return "Student{" + "name=" + name + ", age=" + age + ", idNumber=" + idNumber + ", surname=" + surname + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Student{");
+        sb.append("name=").append(name);
+        sb.append(", age=").append(age);
+        sb.append(", idNumber=").append(idNumber);
+        sb.append(", surname=").append(surname);
+        sb.append(", gender=").append(gender);
+        sb.append('}');
+        return sb.toString();
     }
+
+    
+    
     
     
     
