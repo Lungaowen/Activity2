@@ -59,7 +59,7 @@ public class studentService implements methods {
         return list;
         
     }
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         String[] studentData = {
             "Lunga#Smith#20#ID1234#Male",
             "Nina#Khumalo#21#ID2345#Female",
@@ -117,5 +117,6 @@ public class studentService implements methods {
 
         
     }
+**/
     
 }

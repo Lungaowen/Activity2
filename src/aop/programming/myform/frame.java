@@ -20,8 +20,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.Locale;
 import javax.swing.ButtonGroup;
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -51,12 +53,13 @@ public class frame extends JFrame implements ActionListener {
     private JLabel surnameLabel = new JLabel();
     private JLabel IdNumLabel = new JLabel();
     private JLabel ageLabel = new JLabel();
+    private JLabel jl = new JLabel();
     
     //Text field
-    private JTextField nameTextField = new JTextField(10);
-    private JTextField surnameTextField = new JTextField(10);
-    private JTextField IdNumTextField = new JTextField(10);
-    private JTextField ageTextField = new JTextField(10);
+    private JTextField nameTextField = new JTextField(20);
+    private JTextField surnameTextField = new JTextField(20);
+    private JTextField IdNumTextField = new JTextField(20);
+    private JTextField ageTextField = new JTextField(20);
     
     //panels
     private JPanel mainPanel = new JPanel();
@@ -68,6 +71,8 @@ public class frame extends JFrame implements ActionListener {
     private JPanel registerPanel = new JPanel();
     private JPanel buttonPanel = new JPanel();
     private JPanel textPanel = new JPanel();
+    private JPanel gradePanel = new JPanel();
+    private JPanel nameRegPanel = new JPanel();
     
     //My Buttons
     private JButton clearButton = new JButton();
@@ -87,65 +92,79 @@ public class frame extends JFrame implements ActionListener {
     
     //Concrete class
     private Student student = new Student();
+    //JCOMBO BOX GARDE DETAILS
+    
+    private JComboBox comboBox;
     
 
     public frame() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(500, 500);
         setTitle("REGISTRATION FORM");
+        setResizable(false);
         setLayout(new BorderLayout());
         
-        
-        //User name panel 
-        //Name Label
-        JLabel jl = new JLabel("REGISTRATION FORM");
-        //jl.setBorder(new TitledBorder(null, null, 2, 2));
-        jl.setFont(new Font("fOMN", Font.BOLD, 20));
-        //jl.addMouseListener((MouseListener) this);
-        makeMenuBar();
+        titlePanel();
+        makeMainPanel();
         makeRegisterPanel();
-      
-        makeButtonPanel();
-        textPanel.setLayout(new FlowLayout());
-        textArea = new JTextArea(10, 40);
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        textPanel.add(scrollPane);
+        makeGradePanel();
+        textAreaPanel();
         
-        mainPanel.setLayout(new GridLayout(2,1));
-        mainPanel.add(registerPanel);
-        mainPanel.add(textPanel);
+        makeButtonPanel();
+        
         setJMenuBar(menuBar);
         
-        add(jl,BorderLayout.NORTH);
+        add(nameRegPanel,BorderLayout.NORTH);
         add(mainPanel,BorderLayout.CENTER);
         add(buttonPanel,BorderLayout.SOUTH);
         pack();
-       
         setVisible(true);
+    }
+    private void titlePanel(){
+        //nameRegPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        nameRegPanel.setLayout(new GridLayout(1, 1, 1, 1));
+        nameRegPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        //Name Label
+         jl.setText("REGISTRATION FORM");
+        jl.setFont(new Font("fOMN", Font.BOLD, 20));
+        jl.setBorder(new BevelBorder(BevelBorder.RAISED, Color.WHITE, Color.gray));
+        nameRegPanel.add(jl);
+       
+    }
+    private void makeMainPanel(){
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setBorder(new TitledBorder(new LineBorder(Color.gray, 5), "Main Panel"));
+        
+        mainPanel.add(registerPanel,BorderLayout.NORTH);
+        mainPanel.add(gradePanel,BorderLayout.CENTER);
+        mainPanel.add(textPanel,BorderLayout.SOUTH);
+    
     }
     private void makeRegisterPanel(){
         
         //nameLabel.setText("Name : ");
-        namePanel.setLayout(new GridLayout(1,2,10,10));
+        namePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         namePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, Color.lightGray, Color.CYAN, Color.blue, Color.MAGENTA), "Name", 4,  TEXT_CURSOR, new Font("Bold", Font.BOLD, 10)));
         //namePanel.add(nameLabel);
+        
         //nameTextField.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, Color.lightGray, Color.CYAN, Color.blue, Color.MAGENTA), "Name", 4,  TEXT_CURSOR, new Font("Bold", Font.ITALIC, 10)));
         namePanel.add(nameTextField);
         
         //surnameLabel.setText("Surname : ");
-        surnamePanel.setLayout(new GridLayout(1,2,10,10));
+        surnamePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        
         surnamePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, Color.lightGray, Color.CYAN, Color.blue, Color.MAGENTA), "Surname", 1,  TEXT_CURSOR, new Font("Bold", Font.BOLD, 10)));
         //surnamePanel.add(surnameLabel);
         surnamePanel.add(surnameTextField);
         
         //ageLabel.setText("Age : ");
-        agePanel.setLayout(new GridLayout(1,2,10,10));
+        agePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         agePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, Color.lightGray, Color.CYAN, Color.blue, Color.MAGENTA), "AGE", 1,  TEXT_CURSOR, new Font("Bold", Font.BOLD, 10)));
         //agePanel.add(ageLabel);
         agePanel.add(ageTextField);
         
         //IdNumLabel.setText("ID number : ");
-        IdNumPanel.setLayout(new GridLayout(1,2,10,10));
+        IdNumPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         //IdNumPanel.add(IdNumLabel);
         IdNumPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, Color.lightGray, Color.CYAN, Color.blue, Color.MAGENTA), "ID number", 1,  TEXT_CURSOR, new Font("Bold", Font.BOLD, 10)));
         IdNumPanel.add(IdNumTextField);
@@ -189,17 +208,53 @@ public class frame extends JFrame implements ActionListener {
     }
     private void makeGenderChooser(){
         JPanel genderPanel = new JPanel();
+        genderPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         genderPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, Color.lightGray, Color.CYAN, Color.blue, Color.MAGENTA), "Gender", 1,  TEXT_CURSOR, new Font("Bold", Font.ITALIC, 10)));
         //genderPanel.setBorder(new TitledBorder("Gender"));
         JRadioButton maleRadio = new JRadioButton("Male");
         JRadioButton femaleRadio = new JRadioButton("Female");
+        JRadioButton otherButton = new JRadioButton("Other");
         ButtonGroup group = new ButtonGroup();
         group.add(maleRadio);
         group.add(femaleRadio);
+        group.add(otherButton);
         genderPanel.add(maleRadio);
         genderPanel.add(femaleRadio);
+        genderPanel.add(otherButton);
         registerPanel.add(genderPanel);
 
+    }
+    private void makeGradePanel(){
+        gradePanel.setLayout(new FlowLayout());
+        gradePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, Color.lightGray, Color.CYAN, Color.blue, Color.MAGENTA),"Class Details"));
+        
+        
+        comboBox = new JComboBox();
+        comboBox.addItem("R");
+        comboBox.addItem("1");
+        comboBox.addItem("2");
+        comboBox.addItem("3");
+        comboBox.addItem("4");
+        comboBox.addItem("5");
+        comboBox.addItem("6");
+        comboBox.addItem("7");
+        comboBox.addItem("8");
+        comboBox.addItem("9");
+        comboBox.addItem("10");
+        comboBox.addItem("11");
+        comboBox.addItem("12");
+        comboBox.setBorder(new BevelBorder(BevelBorder.RAISED, Color.lightGray, Color.CYAN, Color.blue, Color.MAGENTA));
+       
+        gradePanel.add(comboBox);
+    
+    }
+    private void textAreaPanel(){
+        textPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
+        textPanel.setBorder(new TitledBorder(new LineBorder(Color.gray, 2), "About yourself:"));
+        textArea = new JTextArea(10, 40);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        textPanel.add(scrollPane);
+    
     }
   
     @Override
@@ -232,6 +287,14 @@ public class frame extends JFrame implements ActionListener {
             System.exit(0);
         }
     }
-    
+    public static void main(String[] args) {
+        try {
+            frame f = new frame();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+        
+    }
     
 }
